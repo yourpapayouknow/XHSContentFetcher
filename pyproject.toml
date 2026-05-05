@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xhs-content-fetcher"
+version = "0.1.0"
+description = "Fetch Xiaohongshu post/video content and generate Obsidian-ready study notes."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "httpx>=0.28.1",
+  "openai>=1.54.0",
+  "xiaohongshu-cli==0.6.4",
+]
+
+[project.scripts]
+xhs-fetch = "xhs_content_fetcher.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+addopts = "-q"
