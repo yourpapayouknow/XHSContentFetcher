@@ -152,6 +152,76 @@ xhs-fetch run "https://www.xiaohongshu.com/discovery/item/xxxx?xsec_token=...&xs
 xhs-fetch run "<分享链接>" --skip-ocr --skip-llm
 ```
 
+### 6.4 完整 CLI 命令参考
+
+先看总帮助与子命令帮助：
+
+```bash
+xhs-fetch --help
+xhs-fetch run --help
+xhs-fetch config --help
+xhs-fetch config set-cookie --help
+xhs-fetch config clear-cookie --help
+xhs-fetch config set-deepseek-key --help
+xhs-fetch config show --help
+```
+
+`run` 子命令完整示例（包含全部参数）：
+
+```bash
+xhs-fetch run "<小红书分享链接>" \
+  --cookie "a1=...; web_session=...; ..." \
+  --output-root "output" \
+  --vault-dir "C:\\Users\\<用户名>\\Documents\\Obsidian Vault" \
+  --notes-folder "XHS笔记" \
+  --max-comment-pages 20 \
+  --top-like-count 10 \
+  --top-reply-count 10 \
+  --max-sub-comments 5 \
+  --frame-count 8 \
+  --deepseek-api-key "sk-xxxx" \
+  --deepseek-base-url "https://api.deepseek.com" \
+  --deepseek-model "deepseek-v4-flash" \
+  --open-obsidian \
+  --obsidian-cli-cmd "obsidian"
+```
+
+`run` 参数总表：
+
+| 参数 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `url` | 必填 | 无 | 小红书分享链接（图文/视频） |
+| `--cookie` | 可选 | 空 | 小红书 Cookie 字符串 |
+| `--output-root` | 可选 | `output` | 普通输出根目录（未指定 `--vault-dir` 时使用） |
+| `--vault-dir` | 可选 | 空 | Obsidian Vault 根目录；指定后输出到 Vault 内 |
+| `--notes-folder` | 可选 | 配置中的 `notes_folder`（默认 `XHS笔记`） | Vault 内的笔记目录 |
+| `--max-comment-pages` | 可选 | `20` | 评论抓取最大分页数 |
+| `--top-like-count` | 可选 | `10` | 高赞评论保留条数 |
+| `--top-reply-count` | 可选 | `10` | 高回复评论保留条数 |
+| `--max-sub-comments` | 可选 | `5` | 每条高回复评论抓取的子评论上限 |
+| `--frame-count` | 可选 | `8` | 视频关键帧数量 |
+| `--skip-ocr` | 开关 | `false` | 跳过 OCR |
+| `--skip-llm` | 开关 | `false` | 跳过 DeepSeek 生成，输出基础笔记 |
+| `--deepseek-api-key` | 可选 | 空 | DeepSeek API Key |
+| `--deepseek-base-url` | 可选 | 配置中的 `deepseek_base_url` | DeepSeek API Base URL |
+| `--deepseek-model` | 可选 | 配置中的 `deepseek_model` | DeepSeek 模型名 |
+| `--open-obsidian` | 开关 | `false` | 生成后自动打开笔记 |
+| `--obsidian-cli-cmd` | 可选 | 配置中的 `obsidian_cli_cmd`（默认 `obsidian`） | Obsidian CLI 命令名 |
+
+`config` 子命令：
+
+```bash
+xhs-fetch config set-cookie --cookie "a1=...; web_session=...; ..."
+xhs-fetch config clear-cookie
+xhs-fetch config set-deepseek-key --api-key "sk-xxxx"
+xhs-fetch config show
+```
+
+参数优先级（从高到低）：
+
+1. Cookie：`--cookie` > `XHS_COOKIE`（`.env`） > 本地配置文件
+2. DeepSeek Key：`--deepseek-api-key` > `DEEPSEEK_API_KEY`（`.env`） > 本地配置文件
+
 ---
 
 ## 7. 目录与产物结构
