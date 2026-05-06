@@ -17,6 +17,7 @@ build/
 
 .xhs-content-fetcher/
 config.local.json
+.env
 
 _ref_repo/
 _vendor/

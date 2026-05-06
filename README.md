@@ -57,7 +57,9 @@
 
 1. 可直接输出到指定 Vault。
 2. 可选自动调用 Obsidian CLI 打开生成笔记（`--open-obsidian`）。
-3. 已在本机 Obsidian CLI（最新版）实测通过。
+3. 按 Obsidian 官方 CLI 语法调用：
+   - `obsidian vault=<vault_id> open path=<vault内相对路径>`
+4. 若 CLI 不可用，回退为官方 `obsidian://open?...` URI 打开。
 
 ---
 
@@ -97,6 +99,10 @@ pip install paddleocr paddlepaddle
 
 ## 5. 配置方式
 
+### 5.0 使用 `.env`（推荐）
+
+项目会在启动时自动读取根目录 `.env`。先将 `.env.example` 复制为 `.env`，再填写 `XHS_COOKIE`、`DEEPSEEK_API_KEY` 等配置。
+
 ### 5.1 保存 Cookie
 
 ```bash
@@ -134,6 +140,11 @@ xhs-fetch run "https://www.xiaohongshu.com/discovery/item/xxxx?xsec_token=...&xs
   --vault-dir "C:\\Users\\<用户名>\\Documents\\Obsidian Vault" \
   --open-obsidian
 ```
+
+说明：
+
+1. `--vault-dir` 仅指定 Vault 根目录，不写死机器相关绝对路径到代码中。
+2. 程序会把文件输出到 `<vault_dir>/<notes_folder>/...`，并使用 Vault 内相对路径调用 CLI 打开。
 
 ### 6.3 调试模式（跳过 OCR / 跳过 LLM）
 
@@ -203,6 +214,7 @@ xhs-fetch run "<分享链接>" --skip-ocr --skip-llm
 1. 本机可执行 `obsidian --help`
 2. `--vault-dir` 路径正确
 3. 笔记文件位于已注册的 Vault 路径内
+4. Obsidian 已在设置中启用 CLI，并重启终端让 PATH 生效
 
 ---
 

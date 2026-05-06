@@ -5,6 +5,8 @@ import os
 import sys
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 from .config import AppConfig, load_config, mask_cookie, parse_cookie_string, save_config
 from .obsidian import open_note_in_obsidian
 from .workflow import WorkflowOptions, run_pipeline
@@ -150,6 +152,8 @@ def _run_pipeline(args: argparse.Namespace) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
+    # Load environment variables from project root .env if present.
+    load_dotenv(dotenv_path=Path.cwd() / ".env", override=False)
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
